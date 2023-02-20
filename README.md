@@ -16,3 +16,7 @@ inorder to download a video just send it the words:
 "Download this video" and then insert the video name you want it to download like so.. 
 Download this video Taylor Swift - Love Story
 you should be able to receive the Video to the chat after it was downloaded.
+note** the Videos must be short as due to a timeout issue each large video will consume alot of time(the bot will upload only one file to the user which is the latest)
+Note** it should take time to upload the video to the chat so be patient.
+
+For Any Further Question reach me out please.
