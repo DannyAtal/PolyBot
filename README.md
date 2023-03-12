@@ -12,8 +12,8 @@ If your machine is based on arm64 (m1 mac, etc..) run this instead
 
 docker run -d --platform linux/arm64 --restart always --name polybot docker.io/daniatalla/polybot:v1
 
-inorder to download a video just send it the words:
-"Download this video" and then insert the video name you want it to download like so.. 
+inorder to download a video just send it the word:
+"Download" and then insert the video name you want it to download like so.. 
 Download this video Taylor Swift - Love Story
 you should be able to receive the Video to the chat after it was downloaded.
 note** the Videos must be short as due to a timeout issue each large video will consume alot of time(the bot will upload only one file to the user which is the latest)
