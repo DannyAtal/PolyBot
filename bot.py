@@ -2,7 +2,7 @@ from telegram.ext import Updater, MessageHandler, Filters
 from utils import search_download_youtube_video
 from loguru import logger
 import os
-
+import re
 
 class Bot:
 
@@ -25,7 +25,7 @@ class Bot:
 
     def send_video(self, update, context, file_path):
         """Sends video to a chat"""
-        context.bot.send_video(chat_id=update.message.chat_id, video=open(file_path, 'rb'), supports_streaming=True)
+        context.bot.send_video(chat_id=update.message.chat_id, video=open(file_path, 'rb'), supports_streaming=True, timeout=2000)
 
     def send_text(self, update,  text, quote=False):
         """Sends text to a chat"""
@@ -36,27 +36,21 @@ class Bot:
 class QuoteBot(Bot):
     def _message_handler(self, update, context):
         to_quote = True
-        if update.message.text =='Danny':
+        if update.message.text =='Dont':
             to_quote = False
             print(to_quote)
-        if update.message.text.startswith("Download this video"):
+        if update.message.text.startswith("Download"):
             YoutubeBot._message_handler(self, update, context)
         else:
             self.send_text(update, f'Your original message: {update.message.text}', quote=to_quote)
 
 class YoutubeBot(Bot):
     def _message_handler(self, update, context):
-        latest_file, latest_mod_time = None, None
         self.download_video=search_download_youtube_video(video_name={update.message.text},num_results=1)
-        for file in os.listdir():
-            if file.endswith('.mp4'):
-                modification_time = os.path.getmtime(file)
-                if not latest_mod_time or modification_time > latest_mod_time:
-                    latest_mod_time = modification_time
-                    latest_file = file
-                    self.send_video(update, context ,latest_file)
-
-        print("Video Downloaded Successfully")
+        files = [x for x in os.listdir() if x.endswith(".mp4")]
+        newest = max(files, key=os.path.getctime)
+        self.send_video(update, context, newest)
+        print("Video ",newest,"Downloaded Successfully")
 
 if __name__ == '__main__':
     with open('.telegramToken') as f:
